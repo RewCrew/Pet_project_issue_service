@@ -24,7 +24,7 @@ class BooksController:
     #
     @join_point
     def on_post_update(self, request: Request, response: Response):
-        self.book_controller.update_book(**request.media)
+        self.book_controller.update(**request.media)
         response.media = {'message': 'book updated'}
 
     @join_point

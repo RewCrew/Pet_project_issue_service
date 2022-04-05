@@ -39,14 +39,14 @@ class UsersRepo(BaseRepository, interfaces.UsersRepo):
         self.session.execute(query)
         self.session.flush()
 
-    def update(self, user: UserUpdate):
-        user_query = self.session.query(User).filter_by(user_id=user.id).one_or_none()
-        if not user_query:
-            raise errors.NoUser(message="no user founded")
-        if user.name is not None:
-            user_query.name = user.name
-        if user.email is not None:
-            user_query.email = user.email
-        self.session.flush()
-        self.session.commit()
-        return user_query
+    # def update(self, user: UserUpdate):
+    #     user_query = self.session.query(User).filter_by(user_id=user.id).one_or_none()
+    #     if not user_query:
+    #         raise errors.NoUser(message="no user founded")
+    #     if user.name is not None:
+    #         user_query.name = user.name
+    #     if user.email is not None:
+    #         user_query.email = user.email
+    #     self.session.flush()
+    #     self.session.commit()
+    #     return user_query

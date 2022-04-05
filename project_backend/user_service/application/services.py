@@ -46,11 +46,19 @@ class UsersService:
 
     @join_point
     @validate_arguments
-    def delete_user(self, user_id:int):
+    def delete_user(self, user_id: int):
         self.user_repo.delete(user_id)
 
     @join_point
     @validate_with_dto
     def update_user(self, user: UserUpdate):
-        self.user_repo.update(user)
+        user_to_update = self.get_user(user.id)
+        user.populate_obj(user_to_update)
 
+    @join_point
+    def get_user(self, id: int):
+        user = self.user_repo.get_by_id(id)
+        if user is None:
+            raise errors.NoUser(message="No user exist")
+        else:
+            return user

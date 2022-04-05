@@ -24,12 +24,7 @@ class DB:
 
 
 class Application:
-    book_controller = services.BookService(
-        # chats_repo=DB.chats_repo,
-        # chat_users_repo=DB.chat_users_repo,
-        books_repo=DB.books_repo,
-        # messages_repo=DB.messages_repo
-    )
+    book_controller = services.BookService(books_repo=DB.books_repo)
     is_dev_mode = Settings.books_api.IS_DEV_MODE
 
 

@@ -33,5 +33,6 @@ class Users:
     @authenticate
     @join_point
     def on_post_update(self, requset: Request, response: Response):
+        requset.media['id'] = requset.context.client.user_id
         self.users.update_user(**requset.media)
         response.media = {'message': 'user updated'}

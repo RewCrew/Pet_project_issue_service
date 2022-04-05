@@ -34,17 +34,17 @@ class BooksRepo(BaseRepository, interfaces.BooksRepo):
                 book = new_book
         return book
 
-    def update(self, book: BookInfoUpdate):
-        book_query = self.session.query(Book).filter_by(book_id=book.book_id).one_or_none()
-        if not book_query:
-            raise errors.NoBook(message="no book founded")
-        if book.author_name is not None:
-            book_query.author_name = book.author_name
-        if book.book_title is not None:
-            book_query.book_title = book.book_title
-        self.session.flush()
-        self.session.commit()
-        return book_query
+    # def update(self, book: Book):
+    #     book_query = self.session.query(Book).filter_by(book_id=book.book_id).one_or_none()
+    #     if not book_query:
+    #         raise errors.NoBook(message="no book founded")
+    #     if book.author_name is not None:
+    #         book_query.author_name = book.author_name
+    #     if book.book_title is not None:
+    #         book_query.book_title = book.book_title
+    #     self.session.flush()
+    #     self.session.commit()
+    #     return book_query
 
     def delete(self, book_id: int):
         book = self.session.query(Book).filter(Book.book_id == book_id).one_or_none()
