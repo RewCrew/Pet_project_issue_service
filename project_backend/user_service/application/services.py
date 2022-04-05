@@ -20,6 +20,11 @@ class UserInfo(DTO):
     email: str
 
 
+class UserUpdate(DTO):
+    name: Optional[str] = None
+    email: Optional[str] = None
+    id: Optional[int] = None
+
 
 @component
 class UsersService:
@@ -43,4 +48,9 @@ class UsersService:
     @validate_arguments
     def delete_user(self, user_id:int):
         self.user_repo.delete(user_id)
+
+    @join_point
+    @validate_with_dto
+    def update_user(self, user: UserUpdate):
+        self.user_repo.update(user)
 

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
 from .dataclasses import Book
-
+from .services import BookInfoUpdate
 
 
 class BooksRepo(ABC):
@@ -18,7 +18,7 @@ class BooksRepo(ABC):
         pass
 
     @abstractmethod
-    def update(self, book:Book):
+    def update(self, book:BookInfoUpdate):
         pass
 
     @abstractmethod
@@ -30,7 +30,7 @@ class BooksRepo(ABC):
         pass
 
     @abstractmethod
-    def return_book(self, booki_id:int, owner_id:int):
+    def return_book(self, book_id:int, owner_id:int):
         pass
 
     @abstractmethod

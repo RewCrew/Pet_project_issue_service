@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import List, Optional
 
 from .dataclasses import User
+from .services import UserUpdate
 
 class UsersRepo(ABC):
     @abstractmethod
@@ -18,4 +19,8 @@ class UsersRepo(ABC):
 
     @abstractmethod
     def delete(self, user_id:int):
+        pass
+
+    @abstractmethod
+    def update(self, user:UserUpdate):
         pass

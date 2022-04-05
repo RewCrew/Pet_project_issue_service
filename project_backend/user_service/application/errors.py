@@ -1,9 +1,9 @@
 from classic.app.errors import AppError
 
 
-class NotMember(AppError):
-    msg_template = "user with id '{user_id}' not a member of chat"
-    code = 'chat.not_member'
+class NoUser(AppError):
+    msg_template = "no user exist "
+    code = 'user.not_member'
 
 
 class NoChat(AppError):

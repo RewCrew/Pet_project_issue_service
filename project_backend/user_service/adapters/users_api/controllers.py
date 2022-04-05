@@ -23,12 +23,15 @@ class Users:
             "Users complete, your token is - ": token
         }
 
-
-
     @authenticate
     @join_point
     def on_post_delete_user(self, requset: Request, response: Response):
         # requset.media['user_id'] = requset.context.client.user_id
         self.users.delete_user(requset.context.client.user_id)
-        response.media = {'message':'you are deleted from library'}
+        response.media = {'message': 'you are deleted from library'}
 
+    @authenticate
+    @join_point
+    def on_post_update(self, requset: Request, response: Response):
+        self.users.update_user(**requset.media)
+        response.media = {'message': 'user updated'}

@@ -20,21 +20,21 @@ class BooksRepo(BaseRepository, interfaces.BooksRepo):
         return book
 
     def get_by_id(self, id_: int) -> Optional[Book]:
-        query = select(Book).where(Book.id == id_)
+        query = select(Book).where(Book.book_id == id_)
         return self.session.execute(query).scalars().one_or_none()
 
     def get_or_create(self, book: Book) -> Book:
-        if book.id is None:
+        if book.book_id is None:
             self.add(book)
         else:
-            new_book = self.get_by_id(book.id)
+            new_book = self.get_by_id(book.book_id)
             if new_book is None:
                 self.add(book)
             else:
                 book = new_book
         return book
 
-    def update(self, book:BookInfoUpdate):
+    def update(self, book: BookInfoUpdate):
         book_query = self.session.query(Book).filter_by(book_id=book.book_id).one_or_none()
         if not book_query:
             raise errors.NoBook(message="no book founded")
@@ -46,15 +46,15 @@ class BooksRepo(BaseRepository, interfaces.BooksRepo):
         self.session.commit()
         return book_query
 
-    def delete(self, book_id:int):
-        book = self.session.query(Book).filter(Book.book_id==book_id).one_or_none()
+    def delete(self, book_id: int):
+        book = self.session.query(Book).filter(Book.book_id == book_id).one_or_none()
         if not book:
             raise errors.NoBook(message="no book to delete")
         self.session.delete(book)
         self.session.commit()
 
-    def take_book(self, book_id:int, owner_id:int):
-        selected_book = self.session.query(Book).where(Book.book_id==book_id).one_or_none()
+    def take_book(self, book_id: int, owner_id: int):
+        selected_book = self.session.query(Book).where(Book.book_id == book_id).one_or_none()
         if selected_book.owner_id is None:
             selected_book.owner_id = owner_id
             self.session.flush()
@@ -62,9 +62,8 @@ class BooksRepo(BaseRepository, interfaces.BooksRepo):
         else:
             raise errors.NoBook(message="book already taken")
 
-
-    def return_book(self, book_id:int, owner_id:int):
-        selected_book = self.session.query(Book).where(Book.book_id==book_id).one_or_none()
+    def return_book(self, book_id: int, owner_id: int):
+        selected_book = self.session.query(Book).where(Book.book_id == book_id).one_or_none()
         if selected_book.owner_id is not None:
             if selected_book.owner_id == owner_id:
                 selected_book.owner_id = None
@@ -79,11 +78,10 @@ class BooksRepo(BaseRepository, interfaces.BooksRepo):
         books = self.session.query(Book).order_by(Book.book_id).all()
         return books
 
-    def get_user_books(self, owner_id:int):
+    def get_user_books(self, owner_id: int):
         selected_books = self.session.query(Book).where(Book.owner_id == owner_id).all()
         return selected_books
 
     def get_free_books(self):
-        selected_books = self.session.query(Book).where(Book.owner_id == None).order_by(Book.book_id).all()
+        selected_books = self.session.query(Book).where(Book.owner_id is None).order_by(Book.book_id).all()
         return selected_books
-

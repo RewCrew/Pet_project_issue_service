@@ -69,7 +69,7 @@ class BookService:
 
     @join_point
     def get_free_books(self):
-        books = self.books_repo.get_user_books()
+        books = self.books_repo.get_free_books()
         return books
 
 

@@ -7,6 +7,8 @@ from classic.sql_storage import BaseRepository
 
 from user_service.application import interfaces
 from user_service.application.dataclasses import User
+from user_service.application.services import UserUpdate
+from user_service.application import errors
 
 
 @component
@@ -36,3 +38,15 @@ class UsersRepo(BaseRepository, interfaces.UsersRepo):
         query = delete(User).where(User.id == user_id)
         self.session.execute(query)
         self.session.flush()
+
+    def update(self, user: UserUpdate):
+        user_query = self.session.query(User).filter_by(user_id=user.id).one_or_none()
+        if not user_query:
+            raise errors.NoUser(message="no user founded")
+        if user.name is not None:
+            user_query.name = user.name
+        if user.email is not None:
+            user_query.email = user.email
+        self.session.flush()
+        self.session.commit()
+        return user_query
