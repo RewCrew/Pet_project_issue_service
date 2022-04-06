@@ -1,6 +1,6 @@
-from typing import List, Optional
+from typing import Optional
 
-from sqlalchemy import select, desc, delete
+from sqlalchemy import select
 
 from classic.components import component
 from classic.sql_storage import BaseRepository

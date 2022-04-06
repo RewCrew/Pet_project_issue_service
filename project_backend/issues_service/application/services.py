@@ -1,5 +1,5 @@
 from application import errors
-from pydantic import conint, validate_arguments
+from pydantic import validate_arguments
 
 from classic.app import DTO, validate_with_dto
 from classic.aspects import PointCut

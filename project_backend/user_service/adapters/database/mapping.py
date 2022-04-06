@@ -1,4 +1,4 @@
-from sqlalchemy.orm import registry, relationship
+from sqlalchemy.orm import registry
 
 from user_service.application import dataclasses
 

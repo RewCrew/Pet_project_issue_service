@@ -1,14 +1,13 @@
-from typing import List, Optional
+from typing import Optional
 
-from sqlalchemy import select, desc, delete
+from sqlalchemy import select, delete
 
 from classic.components import component
 from classic.sql_storage import BaseRepository
 
 from user_service.application import interfaces
 from user_service.application.dataclasses import User
-from user_service.application.services import UserUpdate
-from user_service.application import errors
+
 
 
 @component

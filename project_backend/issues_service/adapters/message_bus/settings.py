@@ -1,10 +1,8 @@
-from typing import Optional
 import os
 from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    # BROKER_URL: Optional[str] = None
     BROKER_URL: str = f'amqp://' \
                       f'{os.getenv("RABBITMQ_USER", "superuser")}:' \
                       f'{os.getenv("RABBITMQ_PASS", "password")}@' \
