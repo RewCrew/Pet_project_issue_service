@@ -2,13 +2,13 @@ from sqlalchemy import create_engine
 
 from classic.sql_storage import TransactionContext
 
-from book_service.adapters import database, books_api
-from book_service.application import services
+from issues_service.adapters import database, issues_api
+from issues_service.application import services
 
 
 class Settings:
     db = database.Settings()
-    books_api = books_api.Settings()
+    issues_api = issues_api.Settings()
 
 
 class DB:
@@ -17,24 +17,24 @@ class DB:
 
     context = TransactionContext(bind=engine)
 
-    books_repo = database.repositories.BooksRepo(context=context)
+    issues_repo = database.repositories.IssuesRepo(context=context)
     # chats_repo = database.repositories.ChatsRepo(context=context)
     # chat_users_repo = database.repositories.ChatUsersRepo(context=context)
     # messages_repo = database.repositories.MessagesRepo(context=context)
 
 
 class Application:
-    book_controller = services.IssueService(books_repo=DB.books_repo)
-    is_dev_mode = Settings.books_api.IS_DEV_MODE
+    issues_controller = services.IssueService(issues_repo=DB.issues_repo)
+    is_dev_mode = Settings.issues_api.IS_DEV_MODE
 
 
 class Aspects:
     services.join_points.join(DB.context)
-    books_api.join_points.join(DB.context)
+    issues_api.join_points.join(DB.context)
 
 
-app = books_api.create_app(
-    books = Application.book_controller,
+app = issues_api.create_app(
+    issues = Application.issues_controller,
     is_dev_mode=Application.is_dev_mode
 )
 

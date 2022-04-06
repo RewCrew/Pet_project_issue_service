@@ -1,6 +1,3 @@
-from typing import List, Optional, Tuple
-
-import jwt
 from application import errors
 from pydantic import conint, validate_arguments
 
@@ -10,6 +7,7 @@ from classic.components import component
 
 from . import interfaces
 from .dataclasses import Issue
+from issues_service.application import errors
 
 join_points = PointCut()
 join_point = join_points.join_point
@@ -34,19 +32,19 @@ class IssueService:
 
     @join_point
     @validate_arguments
-    def delete_book(self, book_id: int):
-        self.issues_repo.delete(book_id)
+    def delete_issue(self, issue_id: int):
+        self.issues_repo.delete(issue_id)
 
     @join_point
     def get_all(self):
-        books = self.issues_repo.get_all()
-        return books
+        issues = self.issues_repo.get_all()
+        return issues
 
 
     @join_point
-    def get_book(self, book_id: int):
-        book = self.issues_repo.get_by_id(book_id)
-        if book is None:
-            raise errors.NoBook(message="No book exist")
+    def get_issue(self, issue_id: int):
+        issue = self.issues_repo.get_by_id(issue_id)
+        if issue is None:
+            raise errors.NoIssue(message="no issue exist")
         else:
-            return book
+            return issue
