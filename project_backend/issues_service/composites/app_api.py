@@ -1,14 +1,18 @@
+from threading import Thread
+
 from sqlalchemy import create_engine
 
 from classic.sql_storage import TransactionContext
 
-from issues_service.adapters import database, issues_api
+from issues_service.adapters import database, issues_api, message_bus
 from issues_service.application import services
+from kombu import Connection
 
 
 class Settings:
     db = database.Settings()
     issues_api = issues_api.Settings()
+    message_bus = message_bus.Settings()
 
 
 class DB:
@@ -18,20 +22,28 @@ class DB:
     context = TransactionContext(bind=engine)
 
     issues_repo = database.repositories.IssuesRepo(context=context)
-    # chats_repo = database.repositories.ChatsRepo(context=context)
-    # chat_users_repo = database.repositories.ChatUsersRepo(context=context)
-    # messages_repo = database.repositories.MessagesRepo(context=context)
+
 
 
 class Application:
     issues_controller = services.IssueService(issues_repo=DB.issues_repo)
     is_dev_mode = Settings.issues_api.IS_DEV_MODE
 
+class MessageBus:
+    connection = Connection(Settings.message_bus.BROKER_URL)
+    consumer = message_bus.create_consumer(connection, Application.issues_controller)
+
+    @staticmethod
+    def declare_scheme():
+        message_bus.broker_scheme.declare(MessageBus.connection)
 
 class Aspects:
     services.join_points.join(DB.context)
     issues_api.join_points.join(DB.context)
 
+MessageBus.declare_scheme()
+consumer = Thread(target=MessageBus.consumer.run, daemon=True)
+consumer.start()
 
 app = issues_api.create_app(
     issues = Application.issues_controller,
