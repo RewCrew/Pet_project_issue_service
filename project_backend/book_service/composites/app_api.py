@@ -2,13 +2,17 @@ from sqlalchemy import create_engine
 
 from classic.sql_storage import TransactionContext
 
-from book_service.adapters import database, books_api
+from book_service.adapters import database, books_api, message_bus
 from book_service.application import services
+
+from kombu import Connection
+from classic.messaging_kombu import KombuPublisher
 
 
 class Settings:
     db = database.Settings()
     books_api = books_api.Settings()
+    message_bus = message_bus.Settings()
 
 
 class DB:
@@ -18,23 +22,30 @@ class DB:
     context = TransactionContext(bind=engine)
 
     books_repo = database.repositories.BooksRepo(context=context)
-    # chats_repo = database.repositories.ChatsRepo(context=context)
-    # chat_users_repo = database.repositories.ChatUsersRepo(context=context)
-    # messages_repo = database.repositories.MessagesRepo(context=context)
+
+
+class MessageBus:
+    connection = Connection(Settings.message_bus.BROKER_URL)
+    message_bus.broker_scheme.declare(connection)
+
+    publisher = KombuPublisher(
+        connection=connection,
+        scheme=message_bus.broker_scheme,
+    )
 
 
 class Application:
-    book_controller = services.BookService(books_repo=DB.books_repo)
+    book_controller = services.BookService(books_repo=DB.books_repo, publisher=MessageBus.publisher)
     is_dev_mode = Settings.books_api.IS_DEV_MODE
 
 
 class Aspects:
     services.join_points.join(DB.context)
-    books_api.join_points.join(DB.context)
+    books_api.join_points.join(MessageBus.publisher, DB.context)
 
 
 app = books_api.create_app(
-    books = Application.book_controller,
+    books=Application.book_controller,
     is_dev_mode=Application.is_dev_mode
 )
 

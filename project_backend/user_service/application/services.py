@@ -1,7 +1,7 @@
-from typing import List, Optional, Tuple
+from typing import Optional
 
 import jwt
-from pydantic import conint, validate_arguments
+from pydantic import validate_arguments
 
 from classic.app import DTO, validate_with_dto
 from classic.aspects import PointCut
@@ -9,12 +9,12 @@ from classic.components import component
 
 from . import interfaces, errors
 from .dataclasses import User
+from classic.messaging import Publisher, Message
 
 join_points = PointCut()
 join_point = join_points.join_point
 
-from classic.messaging import Publisher, Message
-#
+
 class UserInfo(DTO):
     name: str
     email: str
@@ -36,9 +36,9 @@ class UsersService:
     def add_user(self, user_info: UserInfo):
         new_user = user_info.create_obj(User)
         user = self.user_repo.get_or_create(new_user)
-        self.publisher.plan(Message("Exchange", {"action":"create",
-                                                  "api":"User",
-                                                  "api_id":user.id}))
+        self.publisher.plan(Message("Exchange", {"action": "create",
+                                                 "api": "User",
+                                                 "api_id": user.id}))
         token = jwt.encode(
             {"sub": user.id,
              "name": user.name,

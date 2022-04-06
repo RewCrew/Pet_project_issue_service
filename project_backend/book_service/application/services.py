@@ -1,8 +1,8 @@
-from typing import List, Optional, Tuple
+from typing import Optional
 
-import jwt
+
 from application import errors
-from pydantic import conint, validate_arguments
+from pydantic import validate_arguments
 
 from classic.app import DTO, validate_with_dto
 from classic.aspects import PointCut
@@ -10,9 +10,12 @@ from classic.components import component
 
 from . import interfaces
 from .dataclasses import Book
+from classic.messaging import Publisher, Message
 
 join_points = PointCut()
 join_point = join_points.join_point
+
+
 
 
 class BookInfo(DTO):
@@ -29,11 +32,18 @@ class BookInfoUpdate(DTO):
 @component
 class BookService:
     books_repo: interfaces.BooksRepo
+    publisher: Publisher
 
     @join_point
     @validate_with_dto
     def add_book(self, book_info: BookInfo):
-        book = book_info.create_obj(Book)
+        new_book = book_info.create_obj(Book)
+        book = self.books_repo.get_or_create(new_book)
+        self.publisher.plan(Message("Exchange", {
+            "action": "create",
+            "api": "Book",
+            "api_id": book.book_id
+        }))
         self.books_repo.add(book)
 
     @join_point

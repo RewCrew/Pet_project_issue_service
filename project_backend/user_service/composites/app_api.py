@@ -14,6 +14,7 @@ class Settings:
     chat_api = users_api.Settings()
     message_bus = message_bus.Settings()
 
+
 class DB:
     engine = create_engine(Settings.db.DB_URL)
     database.metadata.create_all(engine)
@@ -21,9 +22,6 @@ class DB:
     context = TransactionContext(bind=engine)
 
     users_repo = database.repositories.UsersRepo(context=context)
-    # chats_repo = database.repositories.ChatsRepo(context=context)
-    # chat_users_repo = database.repositories.ChatUsersRepo(context=context)
-    # messages_repo = database.repositories.MessagesRepo(context=context)
 
 
 class MessageBus:
@@ -35,11 +33,10 @@ class MessageBus:
         scheme=message_bus.broker_scheme,
     )
 
+
 class Application:
     register = services.UsersService(user_repo=DB.users_repo, publisher=MessageBus.publisher)
     is_dev_mode = Settings.chat_api.IS_DEV_MODE
-
-
 
 
 class Aspects:
