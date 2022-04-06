@@ -52,12 +52,18 @@ class UsersService:
     @validate_arguments
     def delete_user(self, user_id: int):
         self.user_repo.delete(user_id)
+        self.publisher.plan(Message("Exchange", {"action": "delete",
+                                                 "api": "User",
+                                                 "api_id": user_id}))
 
     @join_point
     @validate_with_dto
     def update_user(self, user: UserUpdate):
         user_to_update = self.get_user(user.id)
         user.populate_obj(user_to_update)
+        self.publisher.plan(Message("Exchange", {"action": "update",
+                                                 "api": "User",
+                                                 "api_id": user.id}))
 
     @join_point
     def get_user(self, id: int):

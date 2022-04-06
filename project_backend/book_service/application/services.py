@@ -39,11 +39,9 @@ class BookService:
     def add_book(self, book_info: BookInfo):
         new_book = book_info.create_obj(Book)
         book = self.books_repo.get_or_create(new_book)
-        self.publisher.plan(Message("Exchange", {
-            "action": "create",
-            "api": "Book",
-            "api_id": book.book_id
-        }))
+        self.publisher.plan(Message("Exchange", {"action": "create",
+                                                 "api": "Book",
+                                                 "api_id": book.book_id}))
         self.books_repo.add(book)
 
     @join_point
@@ -51,21 +49,39 @@ class BookService:
     def update(self, book_info: BookInfoUpdate):
         book = self.get_book(book_info.book_id)
         book_info.populate_obj(book)
+        self.publisher.plan(Message("Exchange", {"action": "update",
+                                                 "api": "Book",
+                                                 "api_id": book_info.book_id}))
 
     @join_point
     @validate_arguments
     def delete_book(self, book_id: int):
         self.books_repo.delete(book_id)
+        self.publisher.plan(Message("Exchange", {"action": "delete",
+                                                 "api": "Book",
+                                                 "api_id": book_id}))
 
     @join_point
     @validate_arguments
     def take_book(self, book_id: int, owner_id: int):
         self.books_repo.take_book(book_id, owner_id)
+        self.publisher.plan(Message("Exchange", {"action": "take book",
+                                                 "api": "Book",
+                                                 "api_id": book_id}))
+        self.publisher.plan(Message("Exchange", {"action": "take book",
+                                                 "api": "User",
+                                                 "api_id": owner_id}))
 
     @join_point
     @validate_arguments
     def return_book(self, book_id: int, owner_id: int):
         self.books_repo.return_book(book_id, owner_id)
+        self.publisher.plan(Message("Exchange", {"action": "return book",
+                                                 "api": "Book",
+                                                 "api_id": book_id}))
+        self.publisher.plan(Message("Exchange", {"action": "return book",
+                                                 "api": "User",
+                                                 "api_id": owner_id}))
 
     @join_point
     def get_all(self):

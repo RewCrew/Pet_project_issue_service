@@ -1,13 +1,12 @@
-from typing import List, Optional
+from typing import Optional
 
-from sqlalchemy import select, desc, delete
+from sqlalchemy import select
 
 from classic.components import component
 from classic.sql_storage import BaseRepository
 
 from book_service.application import interfaces
 from book_service.application.dataclasses import Book
-from book_service.application.services import BookInfoUpdate
 from book_service.application import errors
 
 
@@ -54,25 +53,31 @@ class BooksRepo(BaseRepository, interfaces.BooksRepo):
         self.session.commit()
 
     def take_book(self, book_id: int, owner_id: int):
-        selected_book = self.session.query(Book).where(Book.book_id == book_id).one_or_none()
-        if selected_book.owner_id is None:
-            selected_book.owner_id = owner_id
-            self.session.flush()
-            self.session.commit()
+        selected_book = self.get_by_id(book_id)
+        if selected_book is None:
+            raise errors.NoBook(message="not valid ID of book")
         else:
-            raise errors.NoBook(message="book already taken")
-
-    def return_book(self, book_id: int, owner_id: int):
-        selected_book = self.session.query(Book).where(Book.book_id == book_id).one_or_none()
-        if selected_book.owner_id is not None:
-            if selected_book.owner_id == owner_id:
-                selected_book.owner_id = None
+            if selected_book.owner_id is None:
+                selected_book.owner_id = owner_id
                 self.session.flush()
                 self.session.commit()
             else:
-                raise errors.NoBook(message="you are not an owner of this book")
+                raise errors.NoBook(message="book already taken")
+
+    def return_book(self, book_id: int, owner_id: int):
+        selected_book = self.get_by_id(book_id)
+        if selected_book is None:
+            raise errors.NoBook(message="not valid ID of book")
         else:
-            raise errors.NoBook(message="book no need to be returned")
+            if selected_book.owner_id is not None:
+                if selected_book.owner_id == owner_id:
+                    selected_book.owner_id = None
+                    self.session.flush()
+                    self.session.commit()
+                else:
+                    raise errors.NoBook(message="you are not an owner of this book")
+            else:
+                raise errors.NoBook(message="book no need to be returned")
 
     def get_all(self):
         books = self.session.query(Book).order_by(Book.book_id).all()
