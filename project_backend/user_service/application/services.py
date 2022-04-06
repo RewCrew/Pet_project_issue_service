@@ -13,7 +13,7 @@ from .dataclasses import User
 join_points = PointCut()
 join_point = join_points.join_point
 
-
+from classic.messaging import Publisher, Message
 #
 class UserInfo(DTO):
     name: str
@@ -29,12 +29,14 @@ class UserUpdate(DTO):
 @component
 class UsersService:
     user_repo: interfaces.UsersRepo
+    publisher: Publisher
 
     @join_point
     @validate_with_dto
     def add_user(self, user_info: UserInfo):
         new_user = user_info.create_obj(User)
         user = self.user_repo.get_or_create(new_user)
+        self.publisher.plan(Message("UserQueue", {"id":user.id, "action":"create"}))
         token = jwt.encode(
             {"sub": user.id,
              "name": user.name,

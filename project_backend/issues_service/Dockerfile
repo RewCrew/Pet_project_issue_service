@@ -11,6 +11,6 @@ COPY ./setup.py .
 RUN pip install --no-cache-dir --upgrade -e '.[dev]'
 
 
-COPY . ./book_service
+COPY . ./issues_service
 
-CMD [ "python", "book_service/run.py" ]
+CMD [ "python", "issues_service/run.py" ]

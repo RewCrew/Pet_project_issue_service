@@ -17,6 +17,6 @@ def create_app(
 
     app = App(prefix='/api')
 
-    app.register(controllers.IssuesController(issue_controller=issues, authenticator=authenticator))
+    app.register(controllers.IssuesController(issue_controller=issues))
 
     return app
