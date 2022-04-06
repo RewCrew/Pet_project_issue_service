@@ -36,7 +36,9 @@ class UsersService:
     def add_user(self, user_info: UserInfo):
         new_user = user_info.create_obj(User)
         user = self.user_repo.get_or_create(new_user)
-        self.publisher.plan(Message("UserQueue", {"id":user.id, "action":"create"}))
+        self.publisher.plan(Message("UserQueue", {"action":"create",
+                                                  "api":"User",
+                                                  "api_id":user.id}))
         token = jwt.encode(
             {"sub": user.id,
              "name": user.name,
