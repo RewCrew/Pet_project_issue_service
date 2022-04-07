@@ -17,6 +17,13 @@ jobs:
     - name: Build Docker-compose
       run: docker-compose -f project_backend/docker-compose.yml build
 
+    - name: test_books
+      run: cd project_backend && docker-compose run books_service  python -m py.test book_service/tests/tests.py
+
+    - name: test_issues
+      run: cd project_backend && docker-compose run issues_service  python -m py.test issues_service/tests/tests.py
+
     - name: test_users
-      run: docker-compose run users_service python -m py.test user_service/tests/tests.py
+      run: cd project_backend && docker-compose run users_service  python -m py.test user_service/tests/tests.py
+
       
