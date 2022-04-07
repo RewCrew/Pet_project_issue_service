@@ -44,7 +44,7 @@ class IssueService:
     @join_point
     def get_issue(self, issue_id: int):
         issue = self.issues_repo.get_by_id(issue_id)
-        if issue is None:
+        if issue is None or issue.issue_id != issue_id:
             raise errors.NoIssue(message="no issue exist")
         else:
             return issue

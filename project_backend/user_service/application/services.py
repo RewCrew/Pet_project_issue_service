@@ -69,7 +69,7 @@ class UsersService:
     @join_point
     def get_user(self, id: int):
         user = self.user_repo.get_by_id(id)
-        if user is None:
+        if user is None or user.id != id:
             raise errors.NoUser(message="No user exist")
         else:
             return user
