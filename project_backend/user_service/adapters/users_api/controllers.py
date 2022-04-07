@@ -19,9 +19,7 @@ class Users:
     @join_point
     def on_post_register(self, request: Request, response: Response):
         token = self.users.add_user(**request.media)
-        response.media = {
-            "Users complete, your token is - ": token
-        }
+        response.media = {"Token": token}
 
     @authenticate
     @join_point

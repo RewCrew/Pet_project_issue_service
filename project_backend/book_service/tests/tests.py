@@ -14,43 +14,46 @@ test_data_book = {
     'book_id': 1,
     'book_title': 'book',
     'author_name': 'author',
-    'owner_id':None
+    'owner_id': None
 }
 
 test_data_book_user = {
     'book_id': 1,
     'book_title': 'book',
     'author_name': 'author',
-    'owner_id':1
+    'owner_id': 1
 }
 
-owner_id = {'owner_id':1}
+owner_id = {'owner_id': 1}
 
-book_update = {'author_name':'updated_author',
-               'book_id':1}
+book_update = {'author_name': 'updated_author',
+               'book_id': 1}
 
-wrong_book_update = {'author_name':'updated_author',
-                    'book_id':2}
+wrong_book_update = {'author_name': 'updated_author',
+                     'book_id': 2}
 
 
 def test_add_book(book_test):
     book_test.add_book(**test_data_book)
     book_test.books_repo.add.assert_called_once()
     book = book_test.get_book(test_data_book['book_id'])
-    assert asdict(book)==test_data_book
+    assert asdict(book) == test_data_book
 
 
 def test_get_book(book_test):
     book = book_test.get_book(test_data_book['book_id'])
     assert asdict(book) == test_data_book
 
+
 def test_wrong_book(book_test):
     with pytest.raises(errors.NoBook):
         book_test.get_book(2)
 
+
 def test_get_all_books(book_test):
-    books=book_test.get_all()
+    books = book_test.get_all()
     assert type(books) is dataclasses.Book
+
 
 def test_update_book(book_test):
     book_test.update(**book_update)
@@ -64,10 +67,8 @@ def test_wrong_update_book(book_test):
 
 
 def test_take_book(book_test):
-    book = book_test.take_book(book_id = 1, owner_id = 1)
+    book = book_test.take_book(book_id=1, owner_id=1)
     assert asdict(book) == test_data_book_user
-
-
 
 #
 # def test_add_chat(chat_test):
