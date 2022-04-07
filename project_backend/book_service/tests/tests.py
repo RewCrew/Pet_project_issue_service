@@ -70,57 +70,9 @@ def test_take_book(book_test):
     book = book_test.take_book(book_id=1, owner_id=1)
     assert asdict(book) == test_data_book_user
 
-#
-# def test_add_chat(chat_test):
-#     chat = chat_test.add_chat(**test_data_chat)
-#     chat_test.chats_repo.add.assert_called_once()
-#     assert asdict(chat) == test_data_chat
-#
-# def test_add_member(chat_test):
-#     member = chat_test.add_participant(
-#         chat_id=test_data_chat['chat_id'],
-#         creator_id=test_data_user['id'],
-#         user_id=test_data_user2['id'])
-#     chat_test.chat_users_repo.add.assert_called_once()
-#     assert asdict(member) == test_data_chat_user
-#
-#
-# def test_update_chat(chat_test):
-#     chat = chat_test.update_chat(**test_chat_update)
-#     assert asdict(chat) == test_chat_update
-#
-#
-# #
-# def test_delete_chat(chat_test):
-#     chat = chat_test.delete_chat(chat_id=test_data_chat['chat_id'], user_id=test_data_user['id'])
-#     assert chat == None
-#
-#
-# def test_send_message(chat_test):
-#     message = chat_test.send_message(**test_data_message)
-#     chat_test.messages_repo.add.assert_called_once()
-#     assert asdict(message) == test_data_message
-#
-#
-# def test_leave_chat(chat_test):
-#     chat_test.chat_users_repo.leave_chat(**test_data_chat_user)
-#     chat_test.chat_users_repo.leave_chat.assert_called_once()
-#
-#
-# def test_get_chat_members(chat_test):
-#     members = chat_test.get_users_in_chat(
-#         chat_id=test_data_chat['chat_id'], user_id=test_data_user['id'])
-#     assert asdict(members) == test_data_get_users
-#
-#
-# def test_get_chat_messages(chat_test):
-#     messages = chat_test.get_messages(
-#         chat_id=test_data_chat['chat_id'], user_id=test_data_user['id'])
-#     assert asdict(messages) == test_data_get_messages
-#
-#
-# def test_not_chat_creator(chat_test):
-#     with pytest.raises(errors.NotCreator):
-#         chat_test.add_participant(chat_id=test_data_chat['chat_id'],
-#                                   creator_id=test_data_user2['id'],
-#                                   user_id=test_data_user2['id'])
+
+def test_return_book(book_test):
+    book = book_test.return_book(book_id=1, owner_id=1)
+    assert asdict(book) == test_data_book
+
+

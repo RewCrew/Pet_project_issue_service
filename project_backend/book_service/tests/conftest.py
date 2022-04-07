@@ -34,6 +34,7 @@ def books_repo(book, book_taken):
     books_repo.get_or_create = Mock(return_value=book)
     books_repo.get_all = Mock(return_value=book)
     books_repo.take_book = Mock(return_value=book_taken)
+    books_repo.return_book = Mock(return_value=book)
 
     return books_repo
 
