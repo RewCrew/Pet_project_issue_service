@@ -9,5 +9,3 @@ class Issue:
     api: str
     api_id: int
     issue_id: Optional[int] = None
-
-

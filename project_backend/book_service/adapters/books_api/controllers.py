@@ -6,9 +6,7 @@ from falcon import Request, Response
 
 from classic.http_auth import (
     authenticate,
-    authenticator_needed,
-
-)
+    authenticator_needed)
 
 
 @authenticator_needed

@@ -9,7 +9,6 @@ from user_service.application import interfaces
 from user_service.application.dataclasses import User
 
 
-
 @component
 class UsersRepo(BaseRepository, interfaces.UsersRepo):
     def add(self, user: User):
@@ -33,7 +32,7 @@ class UsersRepo(BaseRepository, interfaces.UsersRepo):
                 user = new_user
         return user
 
-    def delete(self, user_id:int):
+    def delete(self, user_id: int):
         query = delete(User).where(User.id == user_id)
         self.session.execute(query)
         self.session.flush()

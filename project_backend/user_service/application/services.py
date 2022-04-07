@@ -65,7 +65,6 @@ class UsersService:
                                                  "api": "User",
                                                  "api_id": user.id}))
 
-
     @join_point
     def get_user(self, id: int):
         user = self.user_repo.get_by_id(id)

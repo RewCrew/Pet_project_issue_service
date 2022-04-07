@@ -1,6 +1,4 @@
-import falcon
-
-from . import controllers, auth
+from book_service.adapters.books_api import controllers, auth
 from classic.http_api import App
 from classic.http_auth import Authenticator
 from book_service.application import services

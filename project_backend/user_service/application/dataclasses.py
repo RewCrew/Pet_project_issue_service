@@ -8,6 +8,3 @@ class User:
     name: str
     email: str
     id: Optional[int] = None
-
-
-

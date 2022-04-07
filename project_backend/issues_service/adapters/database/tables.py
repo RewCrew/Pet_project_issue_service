@@ -27,5 +27,3 @@ issues = Table(
     Column('api', String, nullable=False),
     Column('api_id', Integer, nullable=True)
 )
-
-

@@ -8,6 +8,7 @@ from falcon import Request, Response
 @component
 class IssuesController:
     issue_controller: services.IssueService
+
     #
     # @join_point
     # def on_post_add_issue(self, request: Request, response: Response):

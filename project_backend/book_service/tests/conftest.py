@@ -1,8 +1,5 @@
-from typing import List
-
 import pytest
 from unittest.mock import Mock
-import datetime
 from book_service.application import interfaces, dataclasses
 from classic.messaging import Publisher
 
@@ -10,21 +7,21 @@ from classic.messaging import Publisher
 @pytest.fixture(scope='function')
 def book():
     return dataclasses.Book(
-        book_id = 1,
+        book_id=1,
         book_title='book',
         author_name='author',
-        owner_id = None
+        owner_id=None
     )
+
 
 @pytest.fixture(scope='function')
 def book_taken():
     return dataclasses.Book(
-        book_id = 1,
+        book_id=1,
         book_title='book',
         author_name='author',
-        owner_id = 1
+        owner_id=1
     )
-
 
 
 @pytest.fixture(scope='function')
@@ -41,7 +38,6 @@ def books_repo(book, book_taken):
 
 @pytest.fixture(scope='function')
 def book_publisher():
-    book_publisher=Mock(Publisher)
-    book_publisher.plan=Mock(return_value=None)
+    book_publisher = Mock(Publisher)
+    book_publisher.plan = Mock(return_value=None)
     return book_publisher
-

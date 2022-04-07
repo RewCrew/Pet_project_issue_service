@@ -1,5 +1,3 @@
-import datetime
-
 import pytest
 from attr import asdict
 from book_service.application import services, errors, dataclasses
@@ -74,5 +72,3 @@ def test_take_book(book_test):
 def test_return_book(book_test):
     book = book_test.return_book(book_id=1, owner_id=1)
     assert asdict(book) == test_data_book
-
-

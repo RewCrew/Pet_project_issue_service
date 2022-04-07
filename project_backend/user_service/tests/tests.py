@@ -18,12 +18,12 @@ test_data_user = {
 
 user_update = {
     'name': 'updated_name',
-    'id':1
+    'id': 1
 }
 
 wrong_user_update = {
     'name': 'updated_name',
-    'id':5
+    'id': 5
 }
 
 
@@ -36,6 +36,7 @@ def test_get_user(user_test):
     user = user_test.user_repo.get_by_id(test_data_user['id'])
     assert asdict(user) == test_data_user
 
+
 def test_get_wrong_user(user_test):
     with pytest.raises(errors.NoUser):
         user_test.get_user(5)
@@ -47,7 +48,7 @@ def test_update_user(user_test):
     print(user.name, user_update['name'])
     assert user.name == user_update['name']
 
+
 def test_update_wrong_user(user_test):
     with pytest.raises(errors.NoUser):
         user_test.update_user(**wrong_user_update)
-

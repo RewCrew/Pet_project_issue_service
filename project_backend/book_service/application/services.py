@@ -1,6 +1,5 @@
 from typing import Optional
 
-
 from book_service.application import errors
 from pydantic import validate_arguments
 
@@ -14,8 +13,6 @@ from classic.messaging import Publisher, Message
 
 join_points = PointCut()
 join_point = join_points.join_point
-
-
 
 
 class BookInfo(DTO):
@@ -84,6 +81,7 @@ class BookService:
                                                  "api": "User",
                                                  "api_id": owner_id}))
         return book
+
     @join_point
     def get_all(self):
         books = self.books_repo.get_all()

@@ -1,13 +1,9 @@
 from sqlalchemy import (
     Column,
-    ForeignKey,
     Integer,
     MetaData,
     String,
-    Table,
-    DateTime,
-    UniqueConstraint
-)
+    Table)
 
 naming_convention = {
     'ix': 'ix_%(column_0_label)s',
@@ -27,5 +23,3 @@ books = Table(
     Column('author_name', String, nullable=False),
     Column('owner_id', Integer, nullable=True)
 )
-
-

@@ -28,7 +28,6 @@ class IssueService:
         issue = issues_info.create_obj(Issue)
         self.issues_repo.add(issue)
 
-
     @join_point
     @validate_arguments
     def delete_issue(self, issue_id: int):
@@ -38,7 +37,6 @@ class IssueService:
     def get_all(self):
         issues = self.issues_repo.get_all()
         return issues
-
 
     @join_point
     def get_issue(self, issue_id: int):

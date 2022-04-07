@@ -1,4 +1,3 @@
-
 from kombu import Exchange, Queue
 
 from classic.messaging_kombu import BrokerScheme

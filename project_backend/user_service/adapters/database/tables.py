@@ -26,5 +26,3 @@ users = Table(
     Column('name', String, nullable=False),
     Column('email', String, nullable=True)
 )
-
-
