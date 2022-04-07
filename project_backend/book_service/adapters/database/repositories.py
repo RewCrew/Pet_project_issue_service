@@ -50,7 +50,7 @@ class BooksRepo(BaseRepository, interfaces.BooksRepo):
         if not book:
             raise errors.NoBook(message="no book to delete")
         self.session.delete(book)
-        self.session.commit()
+        # self.session.commit()
 
     def take_book(self, book_id: int, owner_id: int):
         selected_book = self.get_by_id(book_id)
@@ -59,8 +59,8 @@ class BooksRepo(BaseRepository, interfaces.BooksRepo):
         else:
             if selected_book.owner_id is None:
                 selected_book.owner_id = owner_id
-                self.session.flush()
-                self.session.commit()
+                # self.session.flush()
+                # self.session.commit()
             else:
                 raise errors.NoBook(message="book already taken")
 
@@ -72,8 +72,8 @@ class BooksRepo(BaseRepository, interfaces.BooksRepo):
             if selected_book.owner_id is not None:
                 if selected_book.owner_id == owner_id:
                     selected_book.owner_id = None
-                    self.session.flush()
-                    self.session.commit()
+                    # self.session.flush()
+                    # self.session.commit()
                 else:
                     raise errors.NoBook(message="you are not an owner of this book")
             else:
