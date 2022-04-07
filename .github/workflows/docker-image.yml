@@ -16,5 +16,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build Docker-compose
       run: docker-compose -f project_backend/docker-compose.yml build
-      
+
+    - name: test_users
+      run: docker-compose run users_service python -m py.test user_service/tests/tests.py
       
