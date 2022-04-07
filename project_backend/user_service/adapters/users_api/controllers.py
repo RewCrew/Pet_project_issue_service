@@ -1,7 +1,7 @@
 from user_service.application import services
 from classic.components import component
 
-from .join_points import join_point
+from user_service.adapters.users_api.join_points import join_point
 from falcon import Request, Response
 
 from classic.http_auth import (

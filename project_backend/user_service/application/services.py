@@ -7,8 +7,8 @@ from classic.app import DTO, validate_with_dto
 from classic.aspects import PointCut
 from classic.components import component
 
-from . import interfaces, errors
-from .dataclasses import User
+from user_service.application import interfaces, errors
+from user_service.application.dataclasses import User
 from classic.messaging import Publisher, Message
 
 join_points = PointCut()

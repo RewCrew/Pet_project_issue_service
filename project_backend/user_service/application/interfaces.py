@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from .dataclasses import User
+from user_service.application.dataclasses import User
 
 class UsersRepo(ABC):
     @abstractmethod
