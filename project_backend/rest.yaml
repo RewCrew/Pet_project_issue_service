@@ -1,0 +1,188 @@
+openapi: 3.0.0
+info:
+  title: new_project_evraz
+  version: 1.0.0
+servers:
+  - url: http://localhost:1234
+  - url: http://localhost:1235
+  - url: http://localhost:1236
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    noauthAuth:
+      type: http
+      scheme: noauth
+paths:
+  /api/users/register:
+    post:
+      tags:
+        - General
+      summary: register user(US)
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                name:
+                  type: string
+                  example: Kerim
+                email:
+                  type: integer
+                  example: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/users/update:
+    post:
+      tags:
+        - General
+      summary: update user
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                name:
+                  type: string
+                  example: Kerimvvvvv
+                email:
+                  type: integer
+                  example: '1'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/books_controller/add_book:
+    post:
+      tags:
+        - General
+      summary: add book
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                book_title:
+                  type: string
+                  example: Lord of the Rings
+                author_name:
+                  type: string
+                  example: JRR Tolkien
+                user_id:
+                  type: integer
+                  example: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/books_controller/delete:
+    post:
+      tags:
+        - General
+      summary: update book
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                book_id:
+                  type: integer
+                  example: '1'
+                age:
+                  type: integer
+                  example: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/books_controller/take_book:
+    post:
+      tags:
+        - General
+      summary: take book
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                book_id:
+                  type: integer
+                  example: '3'
+                age:
+                  type: integer
+                  example: '10'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/books_controller/return_book:
+    post:
+      tags:
+        - General
+      summary: return book
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                book_id:
+                  type: integer
+                  example: '2'
+                age:
+                  type: integer
+                  example: '10'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/books_controller/get_all_books:
+    get:
+      tags:
+        - General
+      summary: get all books
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/issues_controller/get_all_issues:
+    get:
+      tags:
+        - General
+      summary: get all issues
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/books_controller/get_user_books:
+    get:
+      tags:
+        - General
+      summary: get_user_books
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
