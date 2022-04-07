@@ -1,7 +1,7 @@
 from typing import Optional
 
 
-from application import errors
+from book_service.application import errors
 from pydantic import validate_arguments
 
 from classic.app import DTO, validate_with_dto
@@ -64,25 +64,26 @@ class BookService:
     @join_point
     @validate_arguments
     def take_book(self, book_id: int, owner_id: int):
-        self.books_repo.take_book(book_id, owner_id)
+        book = self.books_repo.take_book(book_id, owner_id)
         self.publisher.plan(Message("Exchange", {"action": "take book",
                                                  "api": "Book",
                                                  "api_id": book_id}))
         self.publisher.plan(Message("Exchange", {"action": "take book",
                                                  "api": "User",
                                                  "api_id": owner_id}))
+        return book
 
     @join_point
     @validate_arguments
     def return_book(self, book_id: int, owner_id: int):
-        self.books_repo.return_book(book_id, owner_id)
+        book = self.books_repo.return_book(book_id, owner_id)
         self.publisher.plan(Message("Exchange", {"action": "return book",
                                                  "api": "Book",
                                                  "api_id": book_id}))
         self.publisher.plan(Message("Exchange", {"action": "return book",
                                                  "api": "User",
                                                  "api_id": owner_id}))
-
+        return book
     @join_point
     def get_all(self):
         books = self.books_repo.get_all()
@@ -102,7 +103,7 @@ class BookService:
     @join_point
     def get_book(self, book_id: int):
         book = self.books_repo.get_by_id(book_id)
-        if book is None:
+        if book is None or book_id != book.book_id:
             raise errors.NoBook(message="No book exist")
         else:
             return book

@@ -59,6 +59,7 @@ class BooksRepo(BaseRepository, interfaces.BooksRepo):
         else:
             if selected_book.owner_id is None:
                 selected_book.owner_id = owner_id
+                return selected_book
                 # self.session.flush()
                 # self.session.commit()
             else:
