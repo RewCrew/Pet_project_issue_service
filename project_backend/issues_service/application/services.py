@@ -1,12 +1,11 @@
-from application import errors
 from pydantic import validate_arguments
 
 from classic.app import DTO, validate_with_dto
 from classic.aspects import PointCut
 from classic.components import component
 
-from . import interfaces
-from .dataclasses import Issue
+from issues_service.application import interfaces
+from issues_service.application.dataclasses import Issue
 from issues_service.application import errors
 
 join_points = PointCut()
