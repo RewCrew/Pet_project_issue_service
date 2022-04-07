@@ -30,7 +30,7 @@ paths:
                   example: Kerim
                 email:
                   type: integer
-                  example: '1'
+                  example: 'kerim@mail.ru'
       responses:
         '200':
           description: Successful response
@@ -48,10 +48,10 @@ paths:
               properties:
                 name:
                   type: string
-                  example: Kerimvvvvv
+                  example: KerimUpdate
                 email:
                   type: integer
-                  example: '1'
+                  example: 'New@mail.ru'
       security:
         - bearerAuth: []
       responses:
@@ -75,9 +75,6 @@ paths:
                 author_name:
                   type: string
                   example: JRR Tolkien
-                user_id:
-                  type: integer
-                  example: '1'
       responses:
         '200':
           description: Successful response
@@ -96,9 +93,9 @@ paths:
                 book_id:
                   type: integer
                   example: '1'
-                age:
-                  type: integer
-                  example: '1'
+                book_title:
+                  type: string
+                  example: new_title
       responses:
         '200':
           description: Successful response
@@ -117,9 +114,9 @@ paths:
                 book_id:
                   type: integer
                   example: '3'
-                age:
+                user_id:
                   type: integer
-                  example: '10'
+                  example: '1'
       security:
         - bearerAuth: []
       responses:
@@ -140,9 +137,9 @@ paths:
                 book_id:
                   type: integer
                   example: '2'
-                age:
+                user_id:
                   type: integer
-                  example: '10'
+                  example: '1'
       security:
         - bearerAuth: []
       responses:
