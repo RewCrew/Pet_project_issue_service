@@ -5,26 +5,11 @@ services:
       context: ./postgres
       dockerfile: Dockerfile
     environment:
-#      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
 #    volumes:
 #      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
-
-#  postgres_db:
-#    container_name: db_app
-#    image: postgres
-#    #    restart: always
-#    environment:
-#      POSTGRES_PASSWORD: password
-#      POSTGRES_USER: user
-#      POSTGRES_DB: users_db
-##    volumes:
-##      - "postgres:/data/postgres"
-#    ports:
-#      - "5432:5432"
-
 
 
   users_service:
@@ -109,11 +94,6 @@ services:
       - users_service
       - books_service
       - issues_service
-
-
-#networks:
-#  service_db_network:
-#    driver: bridge
 
 volumes:
   rabbitmq_data:
