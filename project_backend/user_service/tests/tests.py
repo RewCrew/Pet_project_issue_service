@@ -45,7 +45,6 @@ def test_get_wrong_user(user_test):
 def test_update_user(user_test):
     user_test.update_user(**user_update)
     user = user_test.user_repo.get_by_id(test_data_user['id'])
-    print(user.name, user_update['name'])
     assert user.name == user_update['name']
 
 
